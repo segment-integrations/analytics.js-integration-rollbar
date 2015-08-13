@@ -1,4 +1,10 @@
 
+1.1.0 / 2015-08-13
+==================
+
+  * Updated the Rollbar snippet to use the v1.4.4 code which fixes a bunch of issues, including browser tests.
+
+
 1.0.2 / 2015-06-30
 ==================
 

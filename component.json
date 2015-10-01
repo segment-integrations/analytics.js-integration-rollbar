@@ -2,7 +2,7 @@
   "name": "analytics.js-integration-rollbar",
   "repo": "segment-integrations/analytics.js-integration-rollbar",
   "description": "The Rollbar analytics.js integration.",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "license": "MIT",
   "main": "lib/index.js",
   "dependencies": {

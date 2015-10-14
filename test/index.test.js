@@ -1,3 +1,4 @@
+'use strict';
 
 var Analytics = require('analytics.js-core').constructor;
 var integration = require('analytics.js-integration');
@@ -5,12 +6,14 @@ var sandbox = require('clear-env');
 var tester = require('analytics.js-integration-tester');
 var Rollbar = require('../lib/');
 
+
 describe('Rollbar', function() {
   var analytics;
   var rollbar;
   var options = {
     accessToken: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-    environment: 'testenvironment'
+    environment: 'testenvironment',
+    verbose: true
   };
 
   beforeEach(function() {
@@ -44,13 +47,11 @@ describe('Rollbar', function() {
       it('should create the window.Rollbar object', function() {
         analytics.assert(!window.Rollbar);
         analytics.initialize();
-        analytics.page();
         analytics.assert(window.Rollbar);
       });
 
       it('should have all of the correct methods', function() {
         analytics.initialize();
-        analytics.page();
         analytics.assert(window.Rollbar);
         analytics.assert(window.Rollbar.debug);
         analytics.assert(window.Rollbar.info);
@@ -64,14 +65,12 @@ describe('Rollbar', function() {
       it('should set window.onerror', function() {
         var onerr = window.onerror;
         analytics.initialize();
-        analytics.page();
         analytics.assert(window.onerror !== onerr);
         analytics.assert(typeof window.onerror === 'function');
       });
 
       it('should call #load', function() {
         analytics.initialize();
-        analytics.page();
         analytics.called(rollbar.load);
       });
     });
@@ -84,52 +83,47 @@ describe('Rollbar', function() {
   });
 
   describe('after loading', function() {
-    beforeEach(function(done) {
-      analytics.once('ready', done);
-      analytics.initialize();
-      analytics.page();
-    });
 
     describe('#identify', function() {
-      beforeEach(function() {
-        analytics.stub(window, 'onerror');
-        analytics.stub(window.Rollbar, 'configure');
+      var rollbarClient;
+      beforeEach(function(done) {
+        analytics.initialize();
+        analytics.load(rollbar, function() {
+          rollbarClient = window.Rollbar;
+          analytics.stub(rollbarClient, 'configure');
+          done();
+        });
       });
 
       it('should send an id', function() {
         analytics.identify('id', {});
-        analytics.called(window.Rollbar.configure, {
+        analytics.called(rollbarClient.configure, {
           payload: { person: { id: 'id' } }
         });
       });
 
       it('should not send only traits', function() {
         analytics.identify({ trait: true });
-        analytics.didNotCall(window.Rollbar.configure);
+        analytics.didNotCall(rollbarClient.configure);
       });
 
       it('should send an id and traits', function() {
         analytics.identify('id', { trait: true });
-        analytics.called(window.Rollbar.configure, {
+        analytics.called(rollbarClient.configure, {
           payload: { person: { id: 'id', trait: true } }
         });
       });
     });
 
     describe('window.onerror', function() {
-      beforeEach(function() {
+      it('should call window.Rollbar.uncaughtError', function(done) {
+        window.onerror = undefined;
+        analytics.initialize();
         analytics.stub(window.Rollbar, 'uncaughtError');
-      });
 
-      it('should call window.Rollbar.uncaughtError', function() {
         var err = new Error('testing');
-        window.onerror(
-          'test message',
-          'http://foo.com',
-          33,
-          21,
-          err
-        );
+        window.onerror('test message', 'http://foo.com', 33, 21, err);
+
         analytics.called(window.Rollbar.uncaughtError,
           'test message',
           'http://foo.com',
@@ -137,6 +131,7 @@ describe('Rollbar', function() {
           21,
           err
         );
+        done();
       });
     });
   });

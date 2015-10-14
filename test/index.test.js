@@ -83,7 +83,6 @@ describe('Rollbar', function() {
   });
 
   describe('after loading', function() {
-
     describe('#identify', function() {
       var rollbarClient;
       beforeEach(function(done) {

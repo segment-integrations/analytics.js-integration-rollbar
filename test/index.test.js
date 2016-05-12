@@ -13,6 +13,9 @@ describe('Rollbar', function() {
   var options = {
     accessToken: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
     environment: 'testenvironment',
+    captureUncaught: true,
+    captureUnhandledRejections: false,
+    ignoredMessages: ['oh hey'],
     verbose: true
   };
 
@@ -83,6 +86,21 @@ describe('Rollbar', function() {
   });
 
   describe('after loading', function() {
+    it('should initialize with right options', function(done) {
+      analytics.initialize();
+      analytics.once('ready', function() {
+        analytics.assert(window._rollbarConfig.accessToken === options.accessToken);
+        analytics.assert(window._rollbarConfig.captureUncaught === options.captureUncaught);
+        analytics.assert(window._rollbarConfig.captureUnhandledRejections === options.captureUnhandledRejections);
+        analytics.assert(window._rollbarConfig.verbose === options.verbose);
+        analytics.assert(window._rollbarConfig.payload.environment === options.environment);
+        analytics.assert(window._rollbarConfig.ignoredMessages[0] === options.ignoredMessages[0]);
+
+        done();
+      });
+    });
+
+
     describe('#identify', function() {
       var rollbarClient;
       beforeEach(function(done) {

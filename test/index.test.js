@@ -13,6 +13,9 @@ describe('Rollbar', function() {
   var options = {
     accessToken: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
     environment: 'testenvironment',
+    source_map_enabled: false,
+    code_version: '1.2.3',
+    guess_uncaught_frames: false,
     captureUncaught: true,
     captureUnhandledRejections: false,
     ignoredMessages: ['oh hey'],
@@ -95,6 +98,9 @@ describe('Rollbar', function() {
         analytics.assert(window._rollbarConfig.verbose === options.verbose);
         analytics.assert(window._rollbarConfig.payload.environment === options.environment);
         analytics.assert(window._rollbarConfig.ignoredMessages[0] === options.ignoredMessages[0]);
+        analytics.assert(window._rollbarConfig.payload.source_map_enabled === options.source_map_enabled);
+        analytics.assert(window._rollbarConfig.payload.code_version === options.code_version);
+        analytics.assert(window._rollbarConfig.payload.guess_uncaught_frames === options.guess_uncaught_frames);
 
         done();
       });

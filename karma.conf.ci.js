@@ -44,11 +44,12 @@ var customLaunchers = {
   //   browserName: 'internet explorer',
   //   version: '8'
   // },
-  sl_ie_9: {
-    base: 'SauceLabs',
-    browserName: 'internet explorer',
-    version: '9'
-  },
+  // (noonan) rollbar's js library does not support ie 9
+  // sl_ie_9: {
+  //   base: 'SauceLabs',
+  //   browserName: 'internet explorer',
+  //   version: '9'
+  // },
   sl_ie_10: {
     base: 'SauceLabs',
     browserName: 'internet explorer',

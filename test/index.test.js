@@ -65,7 +65,6 @@ describe('Rollbar', function() {
         analytics.assert(window.Rollbar.error);
         analytics.assert(window.Rollbar.critical);
         analytics.assert(window.Rollbar.configure);
-        analytics.assert(window.Rollbar.scope);
       });
 
       it('should set window.onerror', function() {

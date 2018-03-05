@@ -56,7 +56,6 @@ var customLaunchers = {
 };
 
 module.exports = function(config) {
-  console.log([].concat(Object.keys(customLaunchers)));
   baseConfig(config);
 
   if (!process.env.SAUCE_USERNAME || !process.env.SAUCE_ACCESS_KEY) {

@@ -33,17 +33,6 @@ var customLaunchers = {
     browserName: 'safari',
     version: '9.0'
   },
-  // FIXME(ndhoule): Bad IE7/8 support in testing packages make these fail
-  // sl_ie_7: {
-  //   base: 'SauceLabs',
-  //   browserName: 'internet explorer',
-  //   version: '7'
-  // },
-  // sl_ie_8: {
-  //   base: 'SauceLabs',
-  //   browserName: 'internet explorer',
-  //   version: '8'
-  // },
   // (noonan) rollbar's js library does not support ie 9
   // sl_ie_9: {
   //   base: 'SauceLabs',
@@ -67,6 +56,7 @@ var customLaunchers = {
 };
 
 module.exports = function(config) {
+  console.log([].concat(Object.keys(customLaunchers)));
   baseConfig(config);
 
   if (!process.env.SAUCE_USERNAME || !process.env.SAUCE_ACCESS_KEY) {

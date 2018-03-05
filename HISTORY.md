@@ -1,3 +1,13 @@
+2.3.0 / 2017-10-04
+==================
+
+  * Minor bump to trigger new release on npm
+
+2.3.0 / 2017-10-04
+==================
+
+  * Migrate to Circle V2 Enterprise
+
 2.2.0 / 2017-10-04
 ==================
 

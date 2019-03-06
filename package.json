@@ -25,7 +25,8 @@
   "dependencies": {
     "@ndhoule/extend": "^2.0.0",
     "@segment/analytics.js-integration": "^2.1.0",
-    "is": "^3.1.0"
+    "is": "^3.1.0",
+    "rollbar": "^2.5.3"
   },
   "devDependencies": {
     "@segment/analytics.js-core": "^3.0.0",
